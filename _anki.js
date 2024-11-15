@@ -39,6 +39,8 @@ function convertSentenceToBaseForm(sentence) {
 }
 
 function setOxfordDictionaryLink(id, sentence) {
+  console.log(id);
+  console.log(sentence);
   var text = convertSentenceToBaseForm(sentence);
   document.getElementById(id).innerHTML = "Oxford: " + text;
   document.getElementById(id).href = 'https://www.oxfordlearnersdictionaries.com/definition/english/' + text;
@@ -176,4 +178,47 @@ function askGemini(
     }
   }
   getResponse();
+}
+
+function createAIField(
+  sentence,
+  chatGPTSecretKey,
+  geminiSecretKey
+) {
+  // <textarea id="example_sentence" cols="80" rows="1"></textarea>
+  const exampleTextarea = document.createElement('textarea');
+  exampleTextarea.id = 'example_sentence';
+  exampleTextarea.cols = 80;
+  exampleTextarea.rows = 1;
+
+  // <br> (改行)
+  const br1 = document.createElement('br');
+
+  // <button onclick="chatGPT()">ChatGPTに聞く</button>
+  const chatGPTButton = document.createElement('button');
+  chatGPTButton.textContent = 'ChatGPTに聞く';
+  chatGPTButton.onclick = () => askChatGPTForMakingExampleSentence(sentence, chatGPTSecretKey, 'example_sentence', 'response');
+
+  // <button onclick="gemini()">Geminiに聞く</button>
+  const geminiButton = document.createElement('button');
+  geminiButton.textContent = 'Geminiに聞く';
+  geminiButton.onclick = () => askGeminiForMakingExampleSentence(sentence, geminiSecretKey, 'example_sentence', 'response');
+
+  // <br> (改行)
+  const br2 = document.createElement('br');
+
+  // <textarea id="response" cols="80" rows="18" disabled></textarea>
+  const responseTextarea = document.createElement('textarea');
+  responseTextarea.id = 'response';
+  responseTextarea.cols = 80;
+  responseTextarea.rows = 18;
+  responseTextarea.disabled = true;
+
+  // 作成した要素をbodyに追加
+  document.body.appendChild(exampleTextarea);
+  document.body.appendChild(br1);
+  document.body.appendChild(chatGPTButton);
+  document.body.appendChild(geminiButton);
+  document.body.appendChild(br2);
+  document.body.appendChild(responseTextarea);
 }
