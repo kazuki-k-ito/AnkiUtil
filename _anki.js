@@ -34,8 +34,7 @@ function formatString(str, length, suffix) {
 
 function convertSentenceToBaseForm(sentence) {
   var coloredText = getColoredText(sentence);
-  var text = replaceSpacesWithHyphens(coloredText).toLowerCase();
-  return getBaseForm(text);
+  return getBaseForm(coloredText);
 }
 
 function setOxfordDictionaryLink(id, sentence) {
@@ -185,6 +184,10 @@ function createAIField(
   chatGPTSecretKey,
   geminiSecretKey
 ) {
+  // <div id="groupedElements"></div>
+  const container = document.createElement('div');
+  container.id = 'groupedElements';
+
   // <textarea id="example_sentence" cols="80" rows="1"></textarea>
   const exampleTextarea = document.createElement('textarea');
   exampleTextarea.id = 'example_sentence';
@@ -214,11 +217,24 @@ function createAIField(
   responseTextarea.rows = 18;
   responseTextarea.disabled = true;
 
-  // 作成した要素をbodyに追加
-  document.body.appendChild(exampleTextarea);
-  document.body.appendChild(br1);
-  document.body.appendChild(chatGPTButton);
-  document.body.appendChild(geminiButton);
-  document.body.appendChild(br2);
-  document.body.appendChild(responseTextarea);
+  // 作成した要素をcontainerに追加
+  container.appendChild(exampleTextarea);
+  container.appendChild(br1);
+  container.appendChild(chatGPTButton);
+  container.appendChild(geminiButton);
+  container.appendChild(br2);
+  container.appendChild(responseTextarea);
+
+  // コンテナをbodyに追加
+  document.body.appendChild(container);
 }
+
+// 一括削除する関数
+function removeGroupedElements() {
+  const containerToRemove = document.getElementById('groupedElements');
+  if (containerToRemove) {
+      containerToRemove.remove(); // コンテナごと削除
+  }
+}
+
+removeGroupedElements();
