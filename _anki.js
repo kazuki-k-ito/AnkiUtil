@@ -100,6 +100,7 @@ function askChatGPTForMakingExampleSentence(
 ) {
   var question = buildQuestionForMakingExampleSentence(sentence, inputTextAreaId);
 
+  document.getElementById(outputTextAreaId).value = "ChatGPTに質問中...";
   askChatGPT(question, secretKey, outputTextAreaId);
 }
 
@@ -111,6 +112,7 @@ function askGeminiForMakingExampleSentence(
 ) {
   var question = buildQuestionForMakingExampleSentence(sentence, inputTextAreaId);
 
+  document.getElementById(outputTextAreaId).value = "Geminiに質問中...";
   askGemini(question, secretKey, outputTextAreaId);
 }
 
@@ -192,7 +194,7 @@ function createAIField(
   const exampleTextarea = document.createElement('textarea');
   exampleTextarea.id = 'example_sentence';
   exampleTextarea.cols = 80;
-  exampleTextarea.rows = 1;
+  exampleTextarea.rows = 2;
 
   // <br> (改行)
   const br1 = document.createElement('br');
@@ -233,8 +235,26 @@ function createAIField(
 function removeGroupedElements() {
   const containerToRemove = document.getElementById('groupedElements');
   if (containerToRemove) {
-      containerToRemove.remove(); // コンテナごと削除
+    containerToRemove.remove(); // コンテナごと削除
   }
+}
+
+function embedYouTube(url, startOffset, endOffset) {
+  const videoId = url.split('youtu.be/')[1].split('?')[0];
+  const timestamp = url.split('t=')[1] || 0;
+  const start = Math.max(0, parseInt(timestamp) - startOffset);
+  const end = parseInt(timestamp) + endOffset;
+
+  document.getElementById('youtube-player')?.remove();
+
+  const iframe = document.createElement('iframe');
+  iframe.id = "youtube-player";
+  iframe.width = "640";
+  iframe.height = "360";
+  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&cc_load_policty=1&autoplay=0&modestbranding=1&fs=0&iv_load_policy=3&cc_lang_pref=en&rel=0`;
+  iframe.allowFullscreen = true;
+
+  document.body.appendChild(iframe);
 }
 
 removeGroupedElements();
