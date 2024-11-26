@@ -239,7 +239,7 @@ function removeGroupedElements() {
   }
 }
 
-function embedYouTube(url, startOffset, endOffset) {
+function embedYouTube(url, startOffset, endOffset, autoPlay) {
   const videoId = url.split('youtu.be/')[1].split('?')[0];
   const timestamp = url.split('t=')[1] || 0;
   const start = Math.max(0, parseInt(timestamp) - startOffset);
@@ -251,7 +251,7 @@ function embedYouTube(url, startOffset, endOffset) {
   iframe.id = "youtube-player";
   iframe.width = "640";
   iframe.height = "360";
-  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&cc_load_policty=1&autoplay=0&modestbranding=1&fs=0&iv_load_policy=3&cc_lang_pref=en&rel=0`;
+  iframe.src = `https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&cc_load_policty=1&autoplay=${autoPlay}&modestbranding=1&fs=0&iv_load_policy=3&cc_lang_pref=en&rel=0`;
   iframe.allowFullscreen = true;
 
   document.body.appendChild(iframe);
