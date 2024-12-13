@@ -157,9 +157,8 @@ function askGemini(
   async function getResponse() {
     try {
       const response = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + secretKey,
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b-latest:generateContent?key=" + secretKey,
         {
-          "model": "gpt-4o-mini",
           "contents": [
             { "parts": [{ "text": question }] }
           ]
