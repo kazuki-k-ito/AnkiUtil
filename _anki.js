@@ -76,10 +76,7 @@ function buildQuestionForMakingExampleSentence(
   return question = `
 #命令書:
 あなたはアメリカ人のプロの英語講師です
-以下の制約条件と入力文をもとに#テンプレートの様式で最高の添削を出力してください
-文頭では良かった部分をかならず褒めるようにしてください
-修正した部分はHTMLタグを使って赤色を変えてください
-生徒は${text}を使った例文を作成することができるようになりたいと思っています
+以下の制約条件と入力文をもとに最高の添削を出力してください
 
 #制約条件:
 ・日本語で説明すること
@@ -92,12 +89,10 @@ function buildQuestionForMakingExampleSentence(
 #テンプレート:
 修正前:
 修正後:
-
 訂正理由:
-
 ${text}を使った例文:
 
-#入力分:
+#入力文:
 ${createdSentence}
 `;
 }
