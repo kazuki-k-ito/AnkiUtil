@@ -6,10 +6,6 @@ function getColoredText(sentence) {
   return coloredText[0] ?? '';
 }
 
-function replaceSpacesWithHyphens(text) {
-  return text.replaceAll(" ", "-");
-}
-
 function getBaseForm(word) {
   var doc = nlp(word);
   doc.nouns().toSingular();
@@ -37,12 +33,19 @@ function convertSentenceToBaseForm(sentence) {
   return getBaseForm(coloredText);
 }
 
+function getQueryWord(text) {
+  // 空白を含む場合は複数の単語
+  if (!text.includes(" ")) {
+    return ""
+  }
+
+  return "?q=" + text.replaceAll(" ", "+");
+}
+
 function setOxfordDictionaryLink(id, sentence) {
-  console.log(id);
-  console.log(sentence);
   var text = convertSentenceToBaseForm(sentence);
   document.getElementById(id).innerHTML = "Oxford: " + text;
-  document.getElementById(id).href = 'https://www.oxfordlearnersdictionaries.com/definition/english/' + text;
+  document.getElementById(id).href = 'https://www.oxfordlearnersdictionaries.com/definition/english/' + text.replaceAll(" ", "-") + getQueryWord(text);
 }
 
 function playAudioUK(sentence) {
