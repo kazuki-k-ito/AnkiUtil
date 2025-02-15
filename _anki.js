@@ -49,9 +49,7 @@ function setOxfordDictionaryLink(id, sentence) {
 }
 
 function playAudioUK(sentence) {
-  var coloredText = getColoredText(sentence);
-  var text = replaceSpacesWithHyphens(coloredText).toLowerCase();
-  text = getBaseForm(text);
+  var text = convertSentenceToBaseForm(sentence);
   var p1 = formatString(text, 1, 'g');
   var p2 = formatString(text, 3, 'g');
   var p3 = formatString(text, 5, 'g');
