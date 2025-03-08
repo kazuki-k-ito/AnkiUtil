@@ -44,8 +44,14 @@ function getQueryWord(text) {
 
 function setOxfordDictionaryLink(id, sentence) {
   var text = convertSentenceToBaseForm(sentence);
-  document.getElementById(id).innerHTML = "Oxford: " + text;
+  document.getElementById(id).innerHTML = text + ": Oxford";
   document.getElementById(id).href = 'https://www.oxfordlearnersdictionaries.com/definition/english/' + text.replaceAll(" ", "-") + getQueryWord(text);
+}
+
+function setTenTanDictionaryLink(id, sentence) {
+  var text = convertSentenceToBaseForm(sentence);
+  document.getElementById(id).innerHTML = "天才英単語";
+  document.getElementById(id).href = 'https://www.tentan.jp/word/' + text;
 }
 
 function playAudioUK(sentence) {
@@ -81,7 +87,9 @@ function buildQuestionForMakingExampleSentence(
 
 #制約条件:
 ・日本語で説明すること
+・10点満点でどの程度自然な表現か評価する
 ・簡潔で明確な説明を心がける
+・訂正後の文章でも${text}はかならず使用する
 ・文字数は250文字程度
 ・文法間違い、より適切な表現があれば訂正する
 ・訂正した理由を述べる
@@ -92,6 +100,7 @@ function buildQuestionForMakingExampleSentence(
 日本語訳:
 修正後:
 日本語訳:
+点数:
 訂正理由:
 ${text}を使った例文:
 
