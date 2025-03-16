@@ -13,6 +13,9 @@ function getBaseForm(word) {
   return doc.text();
 }
 
+// Example
+// https://www.oxfordlearnersdictionaries.com/media/english/uk_pron/d/dar/dare_/dare__gb_1.mp3
+
 function formatString(str, length, suffix) {
   if (str.length >= length) {
     // 文字列が指定長以上の場合は切り詰める
@@ -20,8 +23,8 @@ function formatString(str, length, suffix) {
   } else {
     // 文字列が指定長より短い場合
     let result = str.padEnd(length, '_');
-    if (length >= 5 && result.endsWith('_')) {
-      // 長さが5以上で、最後が'_'の場合はsuffixに置き換える
+    if (str.length == 2 && length >= 5 && result.endsWith('_')) {
+      // 元の単語が2文字で長さが5以上で、最後が'_'の場合はsuffixに置き換える
       result = result.slice(0, -1) + suffix;
     }
     return result;
@@ -83,24 +86,31 @@ function buildQuestionForMakingExampleSentence(
   return question = `
 #命令書:
 あなたはアメリカ人のプロの英語講師です
+生徒はIELTSのバンドスコア7.0を目指しています
 以下の制約条件と入力文をもとに最高の添削を出力してください
 
 #制約条件:
 ・日本語で説明すること
-・10点満点でどの程度自然な表現か評価する
-・簡潔で明確な説明を心がける
-・訂正後の文章でも${text}はかならず使用する
+・修正後の文章を繰り返し推敲し、最高の文章を提供する
+・この文章を書く生徒のIELTSのバンドスコアを推測する
+・テンプレートを厳密に使用し、テンプレート以外の発言は付け加えない
+・訂正後の文章でも${text}はかならず使用し1文にする
 ・文字数は250文字程度
 ・文法間違い、より適切な表現があれば訂正する
 ・訂正した理由を述べる
 ・${text}を使用した例文を1つ提示する
 
 #テンプレート:
+推測IELTSバンドスコアと理由:
+
 修正前:
+
 日本語訳:
+
 修正後:
+
 日本語訳:
-点数:
+
 訂正理由:
 ${text}を使った例文:
 
@@ -155,6 +165,7 @@ function askChatGPT(
           },
         }
       );
+      console.log(response.data);
       var content = response.data.choices[0].message.content;
       document.getElementById(outputTextAreaId).value = content;
     } catch (error) {
@@ -171,10 +182,11 @@ function askGemini(
   secretKey,
   outputTextAreaId
 ) {
+  const geminiModel = "gemini-2.0-flash";
   async function getResponse() {
     try {
       const response = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + secretKey,
+        "https://generativelanguage.googleapis.com/v1beta/models/" + geminiModel + ":generateContent?key=" + secretKey,
         {
           "contents": [
             { "parts": [{ "text": question }] }
